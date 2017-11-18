@@ -1,17 +1,28 @@
+require "json"
+
 class Liquid::Scheduler
   def self.instance
     @@instance ||= new
   end
 
   def every(interval, jobClass)
-    jobClass.new(@server, interval)
+    job = jobClass.new(server, interval)
+    @jobs << job
   end
 
   def start
-    @server.start
+    server.start
+  end
+
+  def data
+    @jobs.map(&.data).to_json
+  end
+
+  def server
+    @server ||= Server.new(self)
   end
 
   private def initialize
-    @server = Liquid::Server.new
+    @jobs = [] of Job
   end
 end

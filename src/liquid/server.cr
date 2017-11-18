@@ -1,5 +1,5 @@
 class Liquid::Server
-  def initialize
+  def initialize(@scheduler : Scheduler)
     @sockets = [] of HTTP::WebSocket
   end
 
@@ -16,10 +16,16 @@ class Liquid::Server
     @sockets << socket
   end
 
+  def data
+    @scheduler.data
+  end
+
   def start
-    HTTP::Server.new("127.0.0.1", 8080, [
+    server = HTTP::Server.new("127.0.0.1", 8080, [
       HTTP::WebSocketHandler.new { |socket| open(socket) },
-      HTTP::StaticFileHandler.new("./views/"),
+      JSONHandler.new { |context| context.response.print data },
+      IndexHandler.new,
+      HTTP::StaticFileHandler.new("./assets/"),
     ]).listen
   end
 end
