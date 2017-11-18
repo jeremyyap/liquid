@@ -1,3 +1,5 @@
+require "http"
+
 class Liquid::IndexHandler
   include HTTP::Handler
 

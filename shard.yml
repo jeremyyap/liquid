@@ -1,4 +1,9 @@
 name: liquid
 version: 0.1.0
 
+authors:
+  - Jeremy Yap <dcsyjlj@nus.edu.sg>
+
+crystal: 0.23.1
+
 license: MIT
