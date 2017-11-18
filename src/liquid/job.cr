@@ -1,5 +1,6 @@
 abstract class Liquid::Job
-  def initialize(@interval : Time::Span)
+  def initialize(@server : Liquid::Server, @interval : Time::Span)
+    start
   end
 
   def start
@@ -9,6 +10,10 @@ abstract class Liquid::Job
         sleep @interval
       end
     end
+  end
+
+  def send(message)
+    @server.send(message)
   end
 
   abstract def run
