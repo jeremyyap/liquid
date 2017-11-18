@@ -1,0 +1,14 @@
+<html>
+  <head>
+    <script>
+      var conn = new WebSocket('ws://localhost:8080');
+      conn.onmessage = function (event) {
+        document.getElementById("message").innerHTML = event.data;
+      };
+    </script>
+  </head>
+  <body>
+    <h1>Hello world!</h1>
+    <div id="message"></div>
+  </body>
+</html>
