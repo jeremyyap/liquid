@@ -1,10 +1,10 @@
 require "json"
 
 abstract class Liquid::Job
-  def initialize(@server : Server, @interval : Time::Span)
+  def initialize(@server : Server, @interval : Time::Span, @name : String = self.class.name)
     @data = JSON.build do |json|
       json.object do
-        json.field "name", self.class.name
+        json.field "name", @name
       end
     end
 
@@ -23,7 +23,7 @@ abstract class Liquid::Job
   def send(payload : JSON::Any | String)
     @data = JSON.build do |json|
       json.object do
-        json.field "name", self.class.name
+        json.field "name", @name
         json.field "payload", payload
       end
     end
